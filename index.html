@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI 工安管理系統 - UI 需求模擬原型 v2</title>
+    <title>AI 工安管理系統 - UI 需求模擬原型 v3</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
@@ -57,7 +57,7 @@
             </div>
             <div>
                 <h1 class="text-lg md:text-xl font-bold text-gray-800 tracking-wider">AI 工安管理系統</h1>
-                <p class="text-[10px] text-gray-400">高雄港務分公司 ｜ UI 需求原型 v2.0</p>
+                <p class="text-[10px] text-gray-400">高雄港務分公司 ｜ UI 需求原型 v3.0</p>
             </div>
         </div>
         <div class="flex items-center space-x-2 md:space-x-4">
@@ -105,7 +105,7 @@
             </nav>
             <div class="p-4 border-t text-xs text-gray-400 bg-white">
                 <p>中島區 31-41 號碼頭專案</p>
-                <p class="mt-1 font-mono text-[10px]">系統版本：v2.0 BETA</p>
+                <p class="mt-1 font-mono text-[10px]">系統版本：v3.0 BETA</p>
             </div>
         </aside>
 
@@ -172,14 +172,21 @@
                                 <input type="radio" name="action" value="transfer" class="text-blue-600">
                                 <span class="text-sm">移送處理</span>
                             </label>
+                            <label class="flex items-center space-x-2 bg-yellow-50 px-3 py-2 rounded-lg border border-yellow-200 cursor-pointer hover:bg-yellow-100">
+                                <input type="radio" name="action" value="false_alarm" class="text-yellow-600">
+                                <span class="text-sm text-yellow-700">系統誤判</span>
+                            </label>
                         </div>
                     </div>
                     
-                    <div class="flex space-x-3 pt-2">
-                        <button onclick="alert('模擬功能：下載包含 AI 標註的違規截圖與 TPNet 公司資訊')" class="flex-1 bg-slate-100 hover:bg-slate-200 py-3 rounded-xl text-sm font-bold text-slate-700 border border-slate-200 transition-colors">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3 pt-2">
+                        <button onclick="alert('模擬功能：下載包含 AI 標註的違規截圖與 TPNet 公司資訊')" class="bg-slate-100 hover:bg-slate-200 py-3 rounded-xl text-sm font-bold text-slate-700 border border-slate-200 transition-colors">
                             📥 下載行政截圖
                         </button>
-                        <button onclick="closeModal('caseModal'); alert('案件已送交主管審核')" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl text-sm font-bold shadow-lg shadow-blue-200 transition-all">
+                        <button onclick="alert('模擬功能：下載移送單（含違規事證、裝卸公司資訊）')" class="bg-orange-50 hover:bg-orange-100 py-3 rounded-xl text-sm font-bold text-orange-700 border border-orange-200 transition-colors">
+                            📄 下載移送單
+                        </button>
+                        <button onclick="closeModal('caseModal'); alert('案件已送交主管審核')" class="bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl text-sm font-bold shadow-lg shadow-blue-200 transition-all">
                             📤 送交主管審核
                         </button>
                     </div>
@@ -259,20 +266,27 @@
         const roleNavs = {
             inspector: [
                 { id: 'ins_dash', label: '待處理清單', icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z', badge: 3 },
-                { id: 'ins_history', label: '歷史處置紀錄', icon: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z', badge: 0 }
+                { id: 'ins_live', label: '即時碼頭影像', icon: 'M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z', badge: 0 },
+                { id: 'ins_history', label: '全部警示紀錄', icon: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z', badge: 0 }
             ],
             supervisor: [
                 { id: 'sup_dash', label: '轄區職安看板', icon: 'M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z', badge: 0 },
+                { id: 'sup_live', label: '即時碼頭影像', icon: 'M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z', badge: 0 },
                 { id: 'sup_audit', label: '案件審核功能', icon: 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z', badge: 5 },
+                { id: 'sup_history', label: '全部警示紀錄', icon: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z', badge: 0 },
                 { id: 'sup_report', label: '轄區報表下載', icon: 'M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z', badge: 0 }
             ],
             manager: [
                 { id: 'man_dash', label: '全港監控總覽', icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z', badge: 0 },
+                { id: 'man_live', label: '即時碼頭影像', icon: 'M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z', badge: 0 },
+                { id: 'man_history', label: '全部警示紀錄', icon: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z', badge: 0 },
                 { id: 'man_data', label: '全局數據中心', icon: 'M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4', badge: 0 }
             ],
             admin: [
                 { id: 'adm_status', label: '設備狀態監控', icon: 'M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z', badge: 2 },
+                { id: 'adm_live', label: '即時碼頭影像', icon: 'M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z', badge: 0 },
                 { id: 'adm_ai', label: 'AI 參數調校', icon: 'M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4', badge: 0 },
+                { id: 'adm_history', label: '全部警示紀錄', icon: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z', badge: 0 },
                 { id: 'adm_user', label: '帳號權限設定', icon: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z', badge: 0 },
                 { id: 'adm_fence', label: '電子圍籬設定', icon: 'M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7', badge: 0 }
             ]
@@ -342,27 +356,40 @@
                 `,
                 ins_history: `
                     <div class="mb-8">
-                        <h2 class="text-2xl font-bold text-slate-800">歷史處置紀錄</h2>
-                        <p class="text-slate-500 mt-1">檢視過去所有已完成或送審中的案件紀錄。</p>
+                        <h2 class="text-2xl font-bold text-slate-800">全部警示紀錄</h2>
+                        <p class="text-slate-500 mt-1">檢視所有 AI 偵測警示紀錄，依轄區權限顯示可查看範圍。</p>
+                    </div>
+                    
+                    <div class="requirement-note mb-4">
+                        所有身分皆可查詢警示紀錄，但需依轄區權限限制可見範圍。例如：中島1 巡查員僅可見中島1區碼頭紀錄；管理中心可見全港區紀錄。
                     </div>
                     
                     <!-- 篩選條件 -->
                     <div class="bg-slate-50 p-4 rounded-xl mb-6 flex flex-wrap gap-4 items-end">
-                        <div class="flex-1 min-w-[150px]">
+                        <div class="flex-1 min-w-[120px]">
+                            <label class="text-xs font-bold text-gray-400 mb-1 block">轄區範圍</label>
+                            <select class="w-full border rounded-lg p-2 text-sm bg-blue-50 border-blue-200 text-blue-700 font-bold">
+                                <option>中島1區 </option>
+                                <option disabled>中島2區 🔒</option>
+                                <option disabled>管理中心 (全港) 🔒</option>
+                            </select>
+                        </div>
+                        <div class="flex-1 min-w-[120px]">
                             <label class="text-xs font-bold text-gray-400 mb-1 block">起始日期</label>
                             <input type="date" class="w-full border rounded-lg p-2 text-sm">
                         </div>
-                        <div class="flex-1 min-w-[150px]">
+                        <div class="flex-1 min-w-[120px]">
                             <label class="text-xs font-bold text-gray-400 mb-1 block">結束日期</label>
                             <input type="date" class="w-full border rounded-lg p-2 text-sm">
                         </div>
-                        <div class="flex-1 min-w-[150px]">
+                        <div class="flex-1 min-w-[120px]">
                             <label class="text-xs font-bold text-gray-400 mb-1 block">案件狀態</label>
                             <select class="w-full border rounded-lg p-2 text-sm">
                                 <option>全部</option>
                                 <option>已結案</option>
                                 <option>待審核</option>
                                 <option>退回修正</option>
+                                <option>系統誤判</option>
                             </select>
                         </div>
                         <button class="bg-blue-600 text-white px-6 py-2 rounded-lg text-sm font-bold">查詢</button>
@@ -400,12 +427,161 @@
                                 <span class="bg-yellow-100 text-yellow-700 px-4 py-1.5 rounded-full text-xs font-black shadow-sm">⏳ 待審核</span>
                             </div>
                         </div>
+                        <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-4 hover:border-gray-200 transition-all opacity-60">
+                            <div class="flex items-center space-x-4 md:space-x-6">
+                                <div class="bg-gray-100 p-4 rounded-xl text-gray-400">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"></path></svg>
+                                </div>
+                                <div>
+                                    <div class="text-[10px] text-gray-400 font-bold uppercase tracking-widest mb-1">案號：20260430-003</div>
+                                    <div class="font-bold text-slate-500 text-lg">35 號碼頭 - 未穿反光背心</div>
+                                    <div class="text-sm text-gray-400 mt-1">系統誤判（光線反射造成） | 2026-04-30 08:45</div>
+                                </div>
+                            </div>
+                            <div class="flex space-x-3 items-center">
+                                <span class="bg-gray-100 text-gray-500 px-4 py-1.5 rounded-full text-xs font-black shadow-sm">⊘ 系統誤判</span>
+                            </div>
+                        </div>
+                    </div>
+                `,
+                ins_live: `
+                    <div class="mb-6">
+                        <h2 class="text-2xl font-bold text-slate-800">即時碼頭影像</h2>
+                        <p class="text-slate-500 mt-1">即時監看碼頭 AI 辨識畫面，依轄區權限顯示可查看攝影機。</p>
+                    </div>
+                    
+                    <div class="requirement-note mb-4">
+                        所有身分皆可查看即時影像，但依轄區權限限制可見攝影機範圍。影像需具備即時 AI 辨識功能，自動標註偵測到的違規態樣。
+                    </div>
+                    
+                    <div class="dev-note mb-6">
+                        若串接影像需疊加 AI 辨識結果（邊界框、標籤、信心度）。此處以靜態圖片模擬。
+                    </div>
+                    
+                    <!-- 轄區篩選 -->
+                    <div class="mb-6 flex items-center space-x-4">
+                        <label class="text-sm font-bold text-gray-600">轄區範圍：</label>
+                        <select class="border rounded-lg p-2 text-sm bg-blue-50 border-blue-200 text-blue-700 font-bold">
+                            <option>中島1區</option>
+                            <option disabled>中島2區 🔒</option>
+                            <option disabled>管理中心 (全港) 🔒</option>
+                        </select>
+                    </div>
+                    
+                    <!-- 即時影像網格 -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- 攝影機 1 -->
+                        <div class="bg-black rounded-2xl overflow-hidden shadow-lg">
+                            <div class="relative">
+                                <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&q=80&w=800" class="w-full h-56 object-cover opacity-90">
+                                <div class="absolute border-4 border-red-500 w-20 h-28 top-8 left-1/4 shadow-[0_0_15px_rgba(239,68,68,0.6)] animate-pulse">
+                                    <span class="bg-red-500 text-white text-[10px] px-1.5 py-0.5 font-bold absolute -top-6 left-0 whitespace-nowrap rounded">未戴安全帽 92%</span>
+                                </div>
+                                <div class="absolute border-2 border-yellow-400 w-16 h-24 top-12 right-1/4 shadow-[0_0_10px_rgba(250,204,21,0.5)]">
+                                    <span class="bg-yellow-400 text-black text-[10px] px-1.5 py-0.5 font-bold absolute -top-6 left-0 whitespace-nowrap rounded">作業人員 87%</span>
+                                </div>
+                                <div class="absolute top-3 left-3 flex items-center space-x-2">
+                                    <span class="bg-red-600 text-white text-[10px] px-2 py-1 rounded font-bold flex items-center"><span class="w-2 h-2 bg-white rounded-full mr-1.5 animate-pulse"></span>LIVE</span>
+                                    <span class="bg-black/70 text-white text-[10px] px-2 py-1 rounded font-mono">CAM-31-A</span>
+                                </div>
+                            </div>
+                            <div class="p-4 bg-slate-900 flex justify-between items-center">
+                                <div>
+                                    <div class="text-white font-bold text-sm">31 號碼頭</div>
+                                    <div class="text-gray-400 text-xs">裝卸作業區 | 串流正常</div>
+                                </div>
+                                <div class="flex space-x-2">
+                                    <button class="bg-slate-700 hover:bg-slate-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold">截圖</button>
+                                    <button class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold">全螢幕</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 攝影機 2 -->
+                        <div class="bg-black rounded-2xl overflow-hidden shadow-lg">
+                            <div class="relative">
+                                <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&q=80&w=800" class="w-full h-56 object-cover opacity-90">
+                                <div class="absolute border-2 border-green-400 w-14 h-22 top-10 left-1/3">
+                                    <span class="bg-green-500 text-white text-[10px] px-1.5 py-0.5 font-bold absolute -top-6 left-0 whitespace-nowrap rounded">安全帽 ✓</span>
+                                </div>
+                                <div class="absolute top-3 left-3 flex items-center space-x-2">
+                                    <span class="bg-red-600 text-white text-[10px] px-2 py-1 rounded font-bold flex items-center"><span class="w-2 h-2 bg-white rounded-full mr-1.5 animate-pulse"></span>LIVE</span>
+                                    <span class="bg-black/70 text-white text-[10px] px-2 py-1 rounded font-mono">CAM-33-A</span>
+                                </div>
+                            </div>
+                            <div class="p-4 bg-slate-900 flex justify-between items-center">
+                                <div>
+                                    <div class="text-white font-bold text-sm">33 號碼頭</div>
+                                    <div class="text-gray-400 text-xs">貨櫃堆置區 | 串流正常</div>
+                                </div>
+                                <div class="flex space-x-2">
+                                    <button class="bg-slate-700 hover:bg-slate-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold">截圖</button>
+                                    <button class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold">全螢幕</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 攝影機 3 -->
+                        <div class="bg-black rounded-2xl overflow-hidden shadow-lg">
+                            <div class="relative">
+                                <img src="https://images.unsplash.com/photo-1493946740644-2d8a1f1a6aff?auto=format&fit=crop&q=80&w=800" class="w-full h-56 object-cover opacity-90">
+                                <div class="absolute border-4 border-orange-500 w-24 h-20 top-16 left-1/2 -translate-x-1/2 shadow-[0_0_12px_rgba(249,115,22,0.5)] animate-pulse">
+                                    <span class="bg-orange-500 text-white text-[10px] px-1.5 py-0.5 font-bold absolute -top-6 left-0 whitespace-nowrap rounded">未穿反光背心 88%</span>
+                                </div>
+                                <div class="absolute top-3 left-3 flex items-center space-x-2">
+                                    <span class="bg-red-600 text-white text-[10px] px-2 py-1 rounded font-bold flex items-center"><span class="w-2 h-2 bg-white rounded-full mr-1.5 animate-pulse"></span>LIVE</span>
+                                    <span class="bg-black/70 text-white text-[10px] px-2 py-1 rounded font-mono">CAM-35-A</span>
+                                </div>
+                            </div>
+                            <div class="p-4 bg-slate-900 flex justify-between items-center">
+                                <div>
+                                    <div class="text-white font-bold text-sm">35 號碼頭</div>
+                                    <div class="text-gray-400 text-xs">車輛通道區 | 串流正常</div>
+                                </div>
+                                <div class="flex space-x-2">
+                                    <button class="bg-slate-700 hover:bg-slate-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold">截圖</button>
+                                    <button class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold">全螢幕</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 攝影機 4 - 離線 -->
+                        <div class="bg-black rounded-2xl overflow-hidden shadow-lg opacity-60">
+                            <div class="relative h-56 bg-slate-800 flex items-center justify-center">
+                                <div class="text-center">
+                                    <svg class="w-16 h-16 text-red-500 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"></path></svg>
+                                    <div class="text-red-400 font-bold text-sm">攝影機離線</div>
+                                    <div class="text-gray-500 text-xs mt-1">最後連線：45 分鐘前</div>
+                                </div>
+                                <div class="absolute top-3 left-3 flex items-center space-x-2">
+                                    <span class="bg-red-900 text-red-300 text-[10px] px-2 py-1 rounded font-bold">OFFLINE</span>
+                                    <span class="bg-black/70 text-white text-[10px] px-2 py-1 rounded font-mono">CAM-34-A</span>
+                                </div>
+                            </div>
+                            <div class="p-4 bg-slate-900 flex justify-between items-center">
+                                <div>
+                                    <div class="text-white font-bold text-sm">34 號碼頭</div>
+                                    <div class="text-red-400 text-xs">⚠️ 需派員檢修</div>
+                                </div>
+                                <button class="bg-red-600 hover:bg-red-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold">通報維修</button>
+                            </div>
+                        </div>
                     </div>
                 `
             },
             supervisor: {
                 sup_dash: `
                     <h2 class="text-2xl font-bold text-slate-800 mb-6">轄區職安分析看板</h2>
+                    
+                    <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6">
+                        <div class="flex items-start space-x-3">
+                            <span class="text-2xl">⚠️</span>
+                            <div>
+                                <div class="font-bold text-amber-800">目前的儀錶板只是示意</div>
+                                <div class="text-sm text-amber-700 mt-1">後續會依實際需求新增更多分析圖表與報表功能，以下為規劃中的分析項目示意。</div>
+                            </div>
+                        </div>
+                    </div>
                     
                     <div class="requirement-note mb-6">
                         以下圖表需使用 Chart.js 或其他圖表庫實作，支援 hover 顯示數值、點擊篩選等互動功能。圖表數據需可透過 API 即時更新。
@@ -429,7 +605,7 @@
                     </div>
                     
                     <!-- KPI 卡片 -->
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
                         <div class="bg-blue-50 p-5 rounded-2xl border border-blue-100">
                             <div class="text-xs text-blue-600 font-bold">本月違規總數</div>
                             <div class="text-3xl font-black text-blue-700 mt-2">42</div>
@@ -445,6 +621,69 @@
                         <div class="bg-purple-50 p-5 rounded-2xl border border-purple-100">
                             <div class="text-xs text-purple-600 font-bold">平均處理時效</div>
                             <div class="text-3xl font-black text-purple-700 mt-2">45<span class="text-sm">分</span></div>
+                        </div>
+                    </div>
+                    
+                    <!-- 進階分析區塊（規劃中） -->
+                    <h3 class="text-lg font-bold text-slate-700 mb-4 flex items-center">
+                        <span class="w-1.5 h-5 bg-blue-600 rounded mr-3"></span>
+                        進階分析報表（規劃中）
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- 年度違規趨勢分析 -->
+                        <div class="bg-white p-6 rounded-2xl border-2 border-dashed border-blue-200 shadow-sm">
+                            <div class="flex items-center justify-between mb-4">
+                                <h4 class="font-bold text-slate-600 text-sm">📅 年度違規趨勢分析</h4>
+                                <span class="bg-blue-100 text-blue-600 text-[10px] px-2 py-1 rounded-full font-bold">規劃中</span>
+                            </div>
+                            <div class="h-32 bg-gradient-to-br from-blue-50 to-slate-50 rounded-xl flex items-center justify-center">
+                                <div class="text-center">
+                                    <div class="text-4xl mb-2">📊</div>
+                                    <div class="text-sm text-gray-400">按月份顯示全年違規數量趨勢</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 裝卸業者違規排行 -->
+                        <div class="bg-white p-6 rounded-2xl border-2 border-dashed border-orange-200 shadow-sm">
+                            <div class="flex items-center justify-between mb-4">
+                                <h4 class="font-bold text-slate-600 text-sm">🏢 裝卸業者違規排行</h4>
+                                <span class="bg-orange-100 text-orange-600 text-[10px] px-2 py-1 rounded-full font-bold">規劃中</span>
+                            </div>
+                            <div class="h-32 bg-gradient-to-br from-orange-50 to-slate-50 rounded-xl flex items-center justify-center">
+                                <div class="text-center">
+                                    <div class="text-4xl mb-2">🏆</div>
+                                    <div class="text-sm text-gray-400">依違規次數排序各裝卸公司</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 違規高風險時段分析 -->
+                        <div class="bg-white p-6 rounded-2xl border-2 border-dashed border-red-200 shadow-sm">
+                            <div class="flex items-center justify-between mb-4">
+                                <h4 class="font-bold text-slate-600 text-sm">⏰ 違規高風險時段分析</h4>
+                                <span class="bg-red-100 text-red-600 text-[10px] px-2 py-1 rounded-full font-bold">規劃中</span>
+                            </div>
+                            <div class="h-32 bg-gradient-to-br from-red-50 to-slate-50 rounded-xl flex items-center justify-center">
+                                <div class="text-center">
+                                    <div class="text-4xl mb-2">🕐</div>
+                                    <div class="text-sm text-gray-400">分析一天中各時段的違規頻率</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 各碼頭違規率分析 -->
+                        <div class="bg-white p-6 rounded-2xl border-2 border-dashed border-green-200 shadow-sm">
+                            <div class="flex items-center justify-between mb-4">
+                                <h4 class="font-bold text-slate-600 text-sm">🚢 各碼頭違規率分析</h4>
+                                <span class="bg-green-100 text-green-600 text-[10px] px-2 py-1 rounded-full font-bold">規劃中</span>
+                            </div>
+                            <div class="h-32 bg-gradient-to-br from-green-50 to-slate-50 rounded-xl flex items-center justify-center">
+                                <div class="text-center">
+                                    <div class="text-4xl mb-2">📍</div>
+                                    <div class="text-sm text-gray-400">比較 31-41 號各碼頭違規率</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 `,
@@ -535,6 +774,104 @@
                             <div class="mt-6 text-purple-600 text-sm font-black flex items-center group-hover:translate-x-1 transition-transform">查看排名 →</div>
                         </div>
                     </div>
+                `,
+                sup_live: `
+                    <div class="mb-6">
+                        <h2 class="text-2xl font-bold text-slate-800">即時碼頭影像</h2>
+                        <p class="text-slate-500 mt-1">即時監看碼頭 AI 辨識畫面，依轄區權限顯示可查看攝影機。</p>
+                    </div>
+                    
+                    <div class="requirement-note mb-4">
+                        主管可查看轄區內所有攝影機即時畫面，影像疊加 AI 辨識結果（邊界框、標籤、信心度）。
+                    </div>
+                    
+                    <!-- 轄區篩選 -->
+                    <div class="mb-6 flex items-center space-x-4">
+                        <label class="text-sm font-bold text-gray-600">轄區範圍：</label>
+                        <select class="border rounded-lg p-2 text-sm bg-blue-50 border-blue-200 text-blue-700 font-bold">
+                            <option>中島1區 </option>
+                            <option>中島2區 </option>
+                        </select>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-black rounded-2xl overflow-hidden shadow-lg">
+                            <div class="relative">
+                                <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&q=80&w=800" class="w-full h-48 object-cover opacity-90">
+                                <div class="absolute border-4 border-red-500 w-16 h-24 top-6 left-1/4 shadow-[0_0_15px_rgba(239,68,68,0.6)] animate-pulse">
+                                    <span class="bg-red-500 text-white text-[10px] px-1.5 py-0.5 font-bold absolute -top-5 left-0 whitespace-nowrap rounded">未戴安全帽 92%</span>
+                                </div>
+                                <div class="absolute top-3 left-3 flex items-center space-x-2">
+                                    <span class="bg-red-600 text-white text-[10px] px-2 py-1 rounded font-bold flex items-center"><span class="w-2 h-2 bg-white rounded-full mr-1.5 animate-pulse"></span>LIVE</span>
+                                    <span class="bg-black/70 text-white text-[10px] px-2 py-1 rounded font-mono">CAM-31-A</span>
+                                </div>
+                            </div>
+                            <div class="p-3 bg-slate-900 flex justify-between items-center">
+                                <div class="text-white font-bold text-sm">31 號碼頭</div>
+                                <button class="bg-blue-600 text-white px-3 py-1 rounded-lg text-xs font-bold">全螢幕</button>
+                            </div>
+                        </div>
+                        <div class="bg-black rounded-2xl overflow-hidden shadow-lg">
+                            <div class="relative">
+                                <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&q=80&w=800" class="w-full h-48 object-cover opacity-90">
+                                <div class="absolute border-2 border-green-400 w-12 h-20 top-8 left-1/3">
+                                    <span class="bg-green-500 text-white text-[10px] px-1.5 py-0.5 font-bold absolute -top-5 left-0 whitespace-nowrap rounded">安全帽 ✓</span>
+                                </div>
+                                <div class="absolute top-3 left-3 flex items-center space-x-2">
+                                    <span class="bg-red-600 text-white text-[10px] px-2 py-1 rounded font-bold flex items-center"><span class="w-2 h-2 bg-white rounded-full mr-1.5 animate-pulse"></span>LIVE</span>
+                                    <span class="bg-black/70 text-white text-[10px] px-2 py-1 rounded font-mono">CAM-33-A</span>
+                                </div>
+                            </div>
+                            <div class="p-3 bg-slate-900 flex justify-between items-center">
+                                <div class="text-white font-bold text-sm">33 號碼頭</div>
+                                <button class="bg-blue-600 text-white px-3 py-1 rounded-lg text-xs font-bold">全螢幕</button>
+                            </div>
+                        </div>
+                    </div>
+                `,
+                sup_history: `
+                    <div class="mb-8">
+                        <h2 class="text-2xl font-bold text-slate-800">全部警示紀錄</h2>
+                        <p class="text-slate-500 mt-1">檢視所有 AI 偵測警示紀錄，依轄區權限顯示可查看範圍。</p>
+                    </div>
+                    
+                    <div class="requirement-note mb-4">
+                        主管可查詢轄區內所有警示紀錄，包含已結案、待審核、系統誤判等狀態。
+                    </div>
+                    
+                    <div class="bg-slate-50 p-4 rounded-xl mb-6 flex flex-wrap gap-4 items-end">
+                        <div class="flex-1 min-w-[120px]">
+                            <label class="text-xs font-bold text-gray-400 mb-1 block">轄區範圍</label>
+                            <select class="w-full border rounded-lg p-2 text-sm bg-blue-50 border-blue-200 text-blue-700 font-bold">
+                                <option>中島1區</option>
+                                <option>中島2區</option>
+                            </select>
+                        </div>
+                        <div class="flex-1 min-w-[120px]">
+                            <label class="text-xs font-bold text-gray-400 mb-1 block">起始日期</label>
+                            <input type="date" class="w-full border rounded-lg p-2 text-sm">
+                        </div>
+                        <div class="flex-1 min-w-[120px]">
+                            <label class="text-xs font-bold text-gray-400 mb-1 block">結束日期</label>
+                            <input type="date" class="w-full border rounded-lg p-2 text-sm">
+                        </div>
+                        <div class="flex-1 min-w-[120px]">
+                            <label class="text-xs font-bold text-gray-400 mb-1 block">案件狀態</label>
+                            <select class="w-full border rounded-lg p-2 text-sm">
+                                <option>全部</option>
+                                <option>已結案</option>
+                                <option>待審核</option>
+                                <option>退回修正</option>
+                                <option>系統誤判</option>
+                            </select>
+                        </div>
+                        <button class="bg-blue-600 text-white px-6 py-2 rounded-lg text-sm font-bold">查詢</button>
+                    </div>
+                    
+                    <div class="text-center py-12 text-gray-400">
+                        <div class="text-4xl mb-3">📋</div>
+                        <div>請設定篩選條件後點擊「查詢」</div>
+                    </div>
                 `
             },
             manager: {
@@ -592,6 +929,104 @@
                     <div class="flex flex-col items-center justify-center h-48 border-4 border-dashed border-slate-100 rounded-3xl text-slate-300">
                         <svg class="w-12 h-12 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
                         <p class="font-bold">請設定條件後點擊「產出報表」以預覽資料</p>
+                    </div>
+                `,
+                man_live: `
+                    <div class="mb-6">
+                        <h2 class="text-2xl font-bold text-slate-800">即時碼頭影像</h2>
+                        <p class="text-slate-500 mt-1">即時監看全港碼頭 AI 辨識畫面。</p>
+                    </div>
+                    
+                    <div class="requirement-note mb-4">
+                        管理中心人員可查看全港所有攝影機即時畫面，影像疊加 AI 辨識結果（邊界框、標籤、信心度）。
+                    </div>
+                    
+                    <!-- 轄區篩選 -->
+                    <div class="mb-6 flex items-center space-x-4">
+                        <label class="text-sm font-bold text-gray-600">碼頭範圍：</label>
+                        <select class="border rounded-lg p-2 text-sm bg-blue-50 border-blue-200 text-blue-700 font-bold">
+                            <option>全港碼頭</option>
+                            <option>中島1區 </option>
+                            <option>中島2區 </option>
+                        </select>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="bg-black rounded-xl overflow-hidden shadow-lg">
+                            <div class="relative">
+                                <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&q=80&w=600" class="w-full h-36 object-cover opacity-90">
+                                <div class="absolute top-2 left-2 flex items-center space-x-2">
+                                    <span class="bg-red-600 text-white text-[9px] px-1.5 py-0.5 rounded font-bold flex items-center"><span class="w-1.5 h-1.5 bg-white rounded-full mr-1 animate-pulse"></span>LIVE</span>
+                                    <span class="bg-black/70 text-white text-[9px] px-1.5 py-0.5 rounded font-mono">31號</span>
+                                </div>
+                            </div>
+                            <div class="p-2 bg-slate-900 text-white text-xs font-bold">31 號碼頭</div>
+                        </div>
+                        <div class="bg-black rounded-xl overflow-hidden shadow-lg">
+                            <div class="relative">
+                                <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&q=80&w=600" class="w-full h-36 object-cover opacity-90">
+                                <div class="absolute top-2 left-2 flex items-center space-x-2">
+                                    <span class="bg-red-600 text-white text-[9px] px-1.5 py-0.5 rounded font-bold flex items-center"><span class="w-1.5 h-1.5 bg-white rounded-full mr-1 animate-pulse"></span>LIVE</span>
+                                    <span class="bg-black/70 text-white text-[9px] px-1.5 py-0.5 rounded font-mono">33號</span>
+                                </div>
+                            </div>
+                            <div class="p-2 bg-slate-900 text-white text-xs font-bold">33 號碼頭</div>
+                        </div>
+                        <div class="bg-black rounded-xl overflow-hidden shadow-lg">
+                            <div class="relative">
+                                <img src="https://images.unsplash.com/photo-1493946740644-2d8a1f1a6aff?auto=format&fit=crop&q=80&w=600" class="w-full h-36 object-cover opacity-90">
+                                <div class="absolute top-2 left-2 flex items-center space-x-2">
+                                    <span class="bg-red-600 text-white text-[9px] px-1.5 py-0.5 rounded font-bold flex items-center"><span class="w-1.5 h-1.5 bg-white rounded-full mr-1 animate-pulse"></span>LIVE</span>
+                                    <span class="bg-black/70 text-white text-[9px] px-1.5 py-0.5 rounded font-mono">35號</span>
+                                </div>
+                            </div>
+                            <div class="p-2 bg-slate-900 text-white text-xs font-bold">35 號碼頭</div>
+                        </div>
+                    </div>
+                `,
+                man_history: `
+                    <div class="mb-8">
+                        <h2 class="text-2xl font-bold text-slate-800">全部警示紀錄</h2>
+                        <p class="text-slate-500 mt-1">檢視全港所有 AI 偵測警示紀錄。</p>
+                    </div>
+                    
+                    <div class="requirement-note mb-4">
+                        管理中心人員可查詢全港所有警示紀錄，支援跨轄區查詢與統計分析。
+                    </div>
+                    
+                    <div class="bg-slate-50 p-4 rounded-xl mb-6 flex flex-wrap gap-4 items-end">
+                        <div class="flex-1 min-w-[120px]">
+                            <label class="text-xs font-bold text-gray-400 mb-1 block">碼頭範圍</label>
+                            <select class="w-full border rounded-lg p-2 text-sm bg-blue-50 border-blue-200 text-blue-700 font-bold">
+                                <option>全港碼頭 </option>
+                                <option>中島1區</option>
+                                <option>中島2區 </option>
+                            </select>
+                        </div>
+                        <div class="flex-1 min-w-[120px]">
+                            <label class="text-xs font-bold text-gray-400 mb-1 block">起始日期</label>
+                            <input type="date" class="w-full border rounded-lg p-2 text-sm">
+                        </div>
+                        <div class="flex-1 min-w-[120px]">
+                            <label class="text-xs font-bold text-gray-400 mb-1 block">結束日期</label>
+                            <input type="date" class="w-full border rounded-lg p-2 text-sm">
+                        </div>
+                        <div class="flex-1 min-w-[120px]">
+                            <label class="text-xs font-bold text-gray-400 mb-1 block">案件狀態</label>
+                            <select class="w-full border rounded-lg p-2 text-sm">
+                                <option>全部</option>
+                                <option>已結案</option>
+                                <option>待審核</option>
+                                <option>退回修正</option>
+                                <option>系統誤判</option>
+                            </select>
+                        </div>
+                        <button class="bg-blue-600 text-white px-6 py-2 rounded-lg text-sm font-bold">查詢</button>
+                    </div>
+                    
+                    <div class="text-center py-12 text-gray-400">
+                        <div class="text-4xl mb-3">📋</div>
+                        <div>請設定篩選條件後點擊「查詢」</div>
                     </div>
                 `
             },
@@ -726,6 +1161,121 @@
                                 <tr class="hover:bg-slate-50 transition-colors"><td class="px-6 py-5 font-bold">陳經理</td><td class="px-6 py-5 text-gray-400">職安管理處</td><td><span class="bg-purple-100 text-purple-700 px-3 py-1 rounded text-[10px] font-bold">管理中心</span></td><td class="px-6 py-5 text-gray-500">全港區</td><td class="px-6 py-5"><span class="text-green-600 font-bold">● 啟用</span></td><td class="px-6 py-5 text-center"><button class="text-blue-600 hover:underline text-xs font-bold">編輯</button></td></tr>
                             </tbody>
                         </table>
+                    </div>
+                `,
+                adm_live: `
+                    <div class="mb-6">
+                        <h2 class="text-2xl font-bold text-slate-800">即時碼頭影像</h2>
+                        <p class="text-slate-500 mt-1">即時監看全港碼頭 AI 辨識畫面與設備狀態。</p>
+                    </div>
+                    
+                    <div class="requirement-note mb-4">
+                        系統維管人員可查看全港所有攝影機狀態，監控設備連線與 AI 辨識功能是否正常運作。
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <div class="bg-black rounded-xl overflow-hidden shadow-lg">
+                            <div class="relative">
+                                <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&q=80&w=600" class="w-full h-36 object-cover opacity-90">
+                                <div class="absolute top-2 left-2 flex items-center space-x-2">
+                                    <span class="bg-red-600 text-white text-[9px] px-1.5 py-0.5 rounded font-bold flex items-center"><span class="w-1.5 h-1.5 bg-white rounded-full mr-1 animate-pulse"></span>LIVE</span>
+                                    <span class="bg-green-600 text-white text-[9px] px-1.5 py-0.5 rounded font-bold">AI ✓</span>
+                                </div>
+                            </div>
+                            <div class="p-2 bg-slate-900 flex justify-between items-center">
+                                <span class="text-white text-xs font-bold">CAM-31-A</span>
+                                <span class="text-green-400 text-[10px]">● 正常</span>
+                            </div>
+                        </div>
+                        <div class="bg-black rounded-xl overflow-hidden shadow-lg">
+                            <div class="relative">
+                                <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&q=80&w=600" class="w-full h-36 object-cover opacity-90">
+                                <div class="absolute top-2 left-2 flex items-center space-x-2">
+                                    <span class="bg-red-600 text-white text-[9px] px-1.5 py-0.5 rounded font-bold flex items-center"><span class="w-1.5 h-1.5 bg-white rounded-full mr-1 animate-pulse"></span>LIVE</span>
+                                    <span class="bg-green-600 text-white text-[9px] px-1.5 py-0.5 rounded font-bold">AI ✓</span>
+                                </div>
+                            </div>
+                            <div class="p-2 bg-slate-900 flex justify-between items-center">
+                                <span class="text-white text-xs font-bold">CAM-33-A</span>
+                                <span class="text-green-400 text-[10px]">● 正常</span>
+                            </div>
+                        </div>
+                        <div class="bg-black rounded-xl overflow-hidden shadow-lg opacity-60">
+                            <div class="relative h-36 bg-slate-800 flex items-center justify-center">
+                                <div class="text-red-400 font-bold text-sm">⚠️ 離線</div>
+                                <div class="absolute top-2 left-2">
+                                    <span class="bg-red-900 text-red-300 text-[9px] px-1.5 py-0.5 rounded font-bold">OFFLINE</span>
+                                </div>
+                            </div>
+                            <div class="p-2 bg-slate-900 flex justify-between items-center">
+                                <span class="text-white text-xs font-bold">CAM-35-A</span>
+                                <span class="text-red-400 text-[10px]">● 異常</span>
+                            </div>
+                        </div>
+                    </div>
+                `,
+                adm_history: `
+                    <div class="mb-8">
+                        <h2 class="text-2xl font-bold text-slate-800">全部警示紀錄</h2>
+                        <p class="text-slate-500 mt-1">檢視全港所有 AI 偵測警示紀錄（系統維管視角）。</p>
+                    </div>
+                    
+                    <div class="requirement-note mb-4">
+                        系統維管人員可查詢全部警示紀錄，用於系統效能分析與誤報率統計。
+                    </div>
+                    
+                    <div class="bg-slate-50 p-4 rounded-xl mb-6 flex flex-wrap gap-4 items-end">
+                        <div class="flex-1 min-w-[120px]">
+                            <label class="text-xs font-bold text-gray-400 mb-1 block">碼頭範圍</label>
+                            <select class="w-full border rounded-lg p-2 text-sm bg-blue-50 border-blue-200 text-blue-700 font-bold">
+                                <option>全港碼頭 </option>
+                                <option>中島1區 </option>
+                                <option>中島2區 </option>
+                            </select>
+                        </div>
+                        <div class="flex-1 min-w-[120px]">
+                            <label class="text-xs font-bold text-gray-400 mb-1 block">起始日期</label>
+                            <input type="date" class="w-full border rounded-lg p-2 text-sm">
+                        </div>
+                        <div class="flex-1 min-w-[120px]">
+                            <label class="text-xs font-bold text-gray-400 mb-1 block">結束日期</label>
+                            <input type="date" class="w-full border rounded-lg p-2 text-sm">
+                        </div>
+                        <div class="flex-1 min-w-[120px]">
+                            <label class="text-xs font-bold text-gray-400 mb-1 block">案件狀態</label>
+                            <select class="w-full border rounded-lg p-2 text-sm">
+                                <option>全部</option>
+                                <option>已結案</option>
+                                <option>待審核</option>
+                                <option>退回修正</option>
+                                <option>系統誤判</option>
+                            </select>
+                        </div>
+                        <button class="bg-blue-600 text-white px-6 py-2 rounded-lg text-sm font-bold">查詢</button>
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
+                        <div class="flex justify-between items-center mb-4">
+                            <h4 class="font-bold text-slate-600">系統效能統計</h4>
+                            <span class="text-xs text-gray-400">本月數據</span>
+                        </div>
+                        <div class="grid grid-cols-3 gap-4 text-center">
+                            <div class="bg-blue-50 p-4 rounded-xl">
+                                <div class="text-2xl font-black text-blue-600">156</div>
+                                <div class="text-xs text-gray-500 mt-1">總警示數</div>
+                            </div>
+                            <div class="bg-green-50 p-4 rounded-xl">
+                                <div class="text-2xl font-black text-green-600">142</div>
+                                <div class="text-xs text-gray-500 mt-1">有效偵測</div>
+                            </div>
+                            <div class="bg-yellow-50 p-4 rounded-xl">
+                                <div class="text-2xl font-black text-yellow-600">14</div>
+                                <div class="text-xs text-gray-500 mt-1">系統誤判</div>
+                            </div>
+                        </div>
+                        <div class="mt-4 text-center text-sm text-gray-500">
+                            誤報率：<span class="font-bold text-green-600">9.0%</span>（目標 &lt; 15%）
+                        </div>
                     </div>
                 `,
                 adm_fence: `
